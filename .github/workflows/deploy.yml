@@ -99,6 +99,10 @@ jobs:
             exit 1
           fi
 
+      # 重跑前先删掉同名旧实例（不存在就忽略），避免名字冲突导致创建失败。
+      - name: Delete existing instance (if any)
+        run: unikraft instances delete ${{ inputs.name }} --metro ${{ inputs.metro }} || true
+
       - name: Create instance
         run: |
           set -o pipefail
@@ -106,7 +110,7 @@ jobs:
             --image ${{ steps.login.outputs.org }}/${{ steps.login.outputs.repo }}:${{ inputs.tag }} \
             -n ${{ inputs.name }} \
             -m 256MiB --vcpus 1 \
-            -p 443:8080/http+tls -p 8443:8081/tls \
+            -p 443:8080/http+tls -p 8442:8081/tls \
             --scale-to-zero policy=off \
             --restart always \
             --autostart \
