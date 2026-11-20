@@ -101,7 +101,7 @@ jobs:
 
       # 重跑前先删掉同名旧实例（不存在就忽略），避免名字冲突导致创建失败。
       - name: Delete existing instance (if any)
-        run: unikraft instances delete ${{ inputs.name }} --metro ${{ inputs.metro }} || true
+        run: unikraft instances delete ${{ inputs.name }} || true
 
       - name: Create instance
         run: |
